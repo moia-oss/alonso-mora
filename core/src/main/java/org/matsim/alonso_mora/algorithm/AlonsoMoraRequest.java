@@ -35,6 +35,8 @@ public interface AlonsoMoraRequest extends Comparable<AlonsoMoraRequest> {
 
 	Collection<DrtRequest> getDrtRequests();
 
+	boolean isPrebooked();
+
 	public int getSize();
 
 	boolean isAssigned();

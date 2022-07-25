@@ -11,7 +11,7 @@ import org.matsim.alonso_mora.algorithm.AlonsoMoraTrip;
  * @author sebhoerl
  */
 public interface AssignmentSolver {
-	Solution solve(Stream<AlonsoMoraTrip> candidates);
+	Solution solve(Stream<AlonsoMoraTrip> candidates, boolean prebookedConstraint);
 
 	static public class Solution {
 		public final Status status;

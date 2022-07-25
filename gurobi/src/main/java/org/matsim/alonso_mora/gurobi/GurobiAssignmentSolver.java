@@ -52,7 +52,7 @@ public class GurobiAssignmentSolver implements AssignmentSolver {
 	}
 
 	@Override
-	public Solution solve(Stream<AlonsoMoraTrip> candidates) {
+	public Solution solve(Stream<AlonsoMoraTrip> candidates, boolean prebookedConstraint) {
 		List<AlonsoMoraTrip> tripList = candidates.collect(Collectors.toList());
 		List<AlonsoMoraRequest> requestList = new ArrayList<>(
 				tripList.stream().flatMap(t -> t.getRequests().stream()).collect(Collectors.toSet()));

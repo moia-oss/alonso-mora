@@ -14,18 +14,22 @@ import org.matsim.contrib.drt.passenger.DrtRequest;
 public class DefaultAlonsoMoraRequestFactory implements AlonsoMoraRequestFactory {
 	private final double maximumQueueTime;
 
-	public DefaultAlonsoMoraRequestFactory(double maximumQueueTime) {
+	private final double prebookingHorizon;
+
+	public DefaultAlonsoMoraRequestFactory(double maximumQueueTime, double prebookingHorizon) {
 		this.maximumQueueTime = maximumQueueTime;
+		this.prebookingHorizon = prebookingHorizon;
 	}
 
 	@Override
 	public AlonsoMoraRequest createRequest(Collection<DrtRequest> requests, double directArrvialTime, double earliestDepartureTime,
-			double directRideDistance) {
+			double directRideDistance, double now) {
 		double latestAssignmentTime = earliestDepartureTime + maximumQueueTime;
 		double latestPickupTime = requests.stream().mapToDouble(r -> r.getLatestStartTime()).min()
 				.orElse(Double.POSITIVE_INFINITY);
 		latestAssignmentTime = Math.min(latestAssignmentTime, latestPickupTime);
-
-		return new DefaultAlonsoMoraRequest(requests, latestAssignmentTime, directArrvialTime, directRideDistance);
+		double earliestPickupTime = requests.stream().mapToDouble(DrtRequest::getEarliestStartTime).max().getAsDouble();
+		boolean isPrebooked = now < earliestPickupTime - prebookingHorizon;
+		return new DefaultAlonsoMoraRequest(requests, latestAssignmentTime, directArrvialTime, directRideDistance, isPrebooked);
 	}
 }

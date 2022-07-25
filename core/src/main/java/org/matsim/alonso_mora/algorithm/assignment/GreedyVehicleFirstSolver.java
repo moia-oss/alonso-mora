@@ -31,7 +31,7 @@ public class GreedyVehicleFirstSolver implements AssignmentSolver {
 	}
 
 	@Override
-	public Solution solve(Stream<AlonsoMoraTrip> candidates) {
+	public Solution solve(Stream<AlonsoMoraTrip> candidates, boolean prebookedConstraint) {
 		List<AlonsoMoraTrip> candidateList = new LinkedList<>(candidates.collect(Collectors.toList()));
 
 		List<AlonsoMoraVehicle> vehicleList = new ArrayList<>(

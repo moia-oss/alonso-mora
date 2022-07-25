@@ -138,9 +138,9 @@ public class AlonsoMoraOptimizer implements DrtOptimizer {
 				double directRideDistance = VrpPaths.calcDistance(paths.get(i));
 
 				AlonsoMoraRequest request = requestFactory.createRequest(pool, directArrivalTime, earliestDepartureTime,
-						directRideDistance);
+						directRideDistance, now);
 
-				if (now >= request.getEarliestPickupTime() - prebookingHorizon) {
+				if (!request.isPrebooked()) {
 					newRequests.add(request);
 				} else {
 					prebookingQueue.add(request);

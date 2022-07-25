@@ -87,6 +87,7 @@ public class AlonsoMoraAlgorithm {
 
 	private int numberOfServedRequests = 0;
 	private int numberOfRejectedRequests = 0;
+	private int numberOfRejectedPreboookedRequests = 0;
 
 	private final int maximumOccupancy;
 
@@ -229,6 +230,10 @@ public class AlonsoMoraAlgorithm {
 				}
 
 				numberOfRejectedRequests++;
+				if (request.isPrebooked()){
+					numberOfRejectedPreboookedRequests++;
+					logger.warn("A prebooked request has been rejected");
+				}
 			}
 		}
 
@@ -408,7 +413,12 @@ public class AlonsoMoraAlgorithm {
 		// Run the assignment solver
 
 		information.assignmentStartTime = System.nanoTime();
-		Solution solution = assignmentSolver.solve(vehicleGraphs.values().stream().flatMap(v -> v.stream()));
+		Solution solution = assignmentSolver.solve(vehicleGraphs.values().stream().flatMap(v -> v.stream()), true);
+		// if solution unfeasible with prebooking constraint, run again with penalty only
+		if (solution.status.name() == "FAILURE") {
+			logger.warn("GLPK problem unfeasible, solving without prebooked constraint.");
+			solution = assignmentSolver.solve(vehicleGraphs.values().stream().flatMap(v -> v.stream()), false);
+		}
 		information.assignmentEndTime = System.nanoTime();
 		information.solutionStatus = solution.status;
 
@@ -655,6 +665,13 @@ public class AlonsoMoraAlgorithm {
 
 			// Perform assignment and relocation
 			performAssignment(now, information.get());
+			List<AlonsoMoraRequest> resquestVehicleGraphs = new ArrayList<>(
+					vehicleGraphs.values().stream().flatMap(v -> v.stream()).collect(Collectors.toList()).stream().flatMap(t -> t.getRequests().stream()).collect(Collectors.toSet()));
+			for (AlonsoMoraRequest queuedRequest : queuedRequests){
+				if (queuedRequest.isPrebooked() && !resquestVehicleGraphs.contains(queuedRequest)){
+					logger.warn("Prebooked request not in vehicle Graphs");
+				}
+			}
 		}
 
 		// Print logging information
@@ -701,9 +718,9 @@ public class AlonsoMoraAlgorithm {
 		logger.info(String.format("Graphs: %d RR, %d RTV", requestGraph.getSize(),
 				vehicleGraphs.values().stream().mapToInt(graph -> graph.getSize()).sum()));
 
-		logger.info(String.format("Requests: Q(%d) A(%d) O(%d) S(%d) R(%d), Vehicles: I(%d), A(%d), R(%d)",
+		logger.info(String.format("Requests: Q(%d) A(%d) O(%d) S(%d) RadHoc(%d) RpB(%d), Vehicles: I(%d), A(%d), R(%d)",
 				numberOfQueuedRequests, numberOfAssignedRequests, numberOfOnboardRequests, numberOfServedRequests,
-				numberOfRejectedRequests, numberOfIdleVehicles, numberOfAssignedVehicles, numberOfRebalancingVehicles));
+				numberOfRejectedRequests-numberOfRejectedPreboookedRequests, numberOfRejectedPreboookedRequests, numberOfIdleVehicles, numberOfAssignedVehicles, numberOfRebalancingVehicles));
 	}
 
 	private void generateOccupancyInformation(double now, Information information) {

@@ -48,7 +48,7 @@ public class GlpkJniAssignmentSolver implements AssignmentSolver {
 	}
 
 	@Override
-	public Solution solve(Stream<AlonsoMoraTrip> candidates) {
+	public Solution solve(Stream<AlonsoMoraTrip> candidates, boolean prebookedConstraint) {
 		glp_prob problem = GLPK.glp_create_prob();
 		GLPK.glp_set_prob_name(problem, "AlonsoMoraAssignment");
 
@@ -87,7 +87,7 @@ public class GlpkJniAssignmentSolver implements AssignmentSolver {
 		}
 
 		// Add constraints
-
+		// TODO number of constraints should be 3 when prebooking is allowed
 		GLPK.glp_add_rows(problem, numberOfConstraints);
 
 		// ... (1) one trip per vehicle
@@ -124,12 +124,19 @@ public class GlpkJniAssignmentSolver implements AssignmentSolver {
 			AlonsoMoraRequest request = requestList.get(k);
 			Set<Integer> requestIndices = new HashSet<>();
 
+			boolean tripFeasible = false;
+
 			for (int i = 0; i < tripList.size(); i++) {
 				AlonsoMoraTrip trip = tripList.get(i);
 
 				if (trip.getRequests().contains(request)) {
 					requestIndices.add(i);
+					tripFeasible = true;
 				}
+			}
+
+			if (!tripFeasible & request.isPrebooked()){
+				logger.warn("No trip found for prebooked request");
 			}
 
 			List<Integer> requestIndicesList = new ArrayList<>(requestIndices);
@@ -144,7 +151,13 @@ public class GlpkJniAssignmentSolver implements AssignmentSolver {
 
 			// Request selection variable is added at the end
 			GLPK.intArray_setitem(variables, requestIndices.size() + 1, numberOfTrips + k + 1);
-			GLPK.doubleArray_setitem(values, requestIndices.size() + 1, 1.0);
+
+			// avoid rejection of prebooking by setting chi_k = 0
+			if (!request.isPrebooked() || !prebookedConstraint) {
+				GLPK.doubleArray_setitem(values, requestIndices.size() + 1, 1.0);
+			} else {
+				GLPK.doubleArray_setitem(values, requestIndices.size() + 1, 0.0);
+			}
 
 			GLPK.glp_set_row_bnds(problem, k + numberOfVehicles + 1, GLPKConstants.GLP_FX, 1, 1);
 			GLPK.glp_set_mat_row(problem, k + numberOfVehicles + 1, requestIndices.size() + 1, variables, values);
@@ -160,7 +173,14 @@ public class GlpkJniAssignmentSolver implements AssignmentSolver {
 		}
 
 		for (int i = 0; i < numberOfRequests; i++) {
-			double penalty = requestList.get(i).isAssigned() ? unassignmentPenalty : rejectionPenalty;
+			//double penalty = requestList.get(i).isAssigned() ? unassignmentPenalty : rejectionPenalty;
+			double penalty = unassignmentPenalty;
+			// assign special penalty if request is prebooked -> quick fix only hard coded with 10 times rejectionPenalty
+			if (!requestList.get(i).isAssigned() && requestList.get(i).isPrebooked()) {
+				penalty = rejectionPenalty * 100000000;
+			} else if (!requestList.get(i).isAssigned()) {
+				penalty = rejectionPenalty;
+			}
 			GLPK.glp_set_obj_coef(problem, i + numberOfTrips + 1, penalty);
 		}
 

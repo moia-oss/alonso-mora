@@ -58,7 +58,7 @@ public class GurobiAssignmentSolverTest {
 		AlonsoMoraTrip trip = mockTrip(vehicle, 100.0, request);
 
 		List<AlonsoMoraTrip> candidates = Arrays.asList(trip);
-		Collection<AlonsoMoraTrip> selection = solver.solve(candidates.stream()).trips;
+		Collection<AlonsoMoraTrip> selection = solver.solve(candidates.stream(), true).trips;
 
 		Assert.assertEquals(1, selection.size());
 		Assert.assertTrue(selection.contains(trip));
@@ -77,7 +77,7 @@ public class GurobiAssignmentSolverTest {
 		AlonsoMoraTrip trip2 = mockTrip(vehicle2, 200.0, request2);
 
 		List<AlonsoMoraTrip> candidates = Arrays.asList(trip1, trip2);
-		Collection<AlonsoMoraTrip> selection = solver.solve(candidates.stream()).trips;
+		Collection<AlonsoMoraTrip> selection = solver.solve(candidates.stream(), true).trips;
 
 		Assert.assertEquals(2, selection.size());
 		Assert.assertTrue(selection.contains(trip1));
@@ -101,7 +101,7 @@ public class GurobiAssignmentSolverTest {
 			// to assign two requests
 
 			List<AlonsoMoraTrip> candidates = Arrays.asList(trip1, trip2, trip3);
-			Collection<AlonsoMoraTrip> selection = solver.solve(candidates.stream()).trips;
+			Collection<AlonsoMoraTrip> selection = solver.solve(candidates.stream(), true).trips;
 
 			Assert.assertEquals(1, selection.size());
 			Assert.assertTrue(selection.contains(trip3));
@@ -124,7 +124,7 @@ public class GurobiAssignmentSolverTest {
 			// Must take trip 1 as trip3 is higher than the penalty.
 
 			List<AlonsoMoraTrip> candidates = Arrays.asList(trip1, trip2, trip3);
-			Collection<AlonsoMoraTrip> selection = solver.solve(candidates.stream()).trips;
+			Collection<AlonsoMoraTrip> selection = solver.solve(candidates.stream(), true).trips;
 
 			Assert.assertEquals(1, selection.size());
 			Assert.assertTrue(selection.contains(trip1));

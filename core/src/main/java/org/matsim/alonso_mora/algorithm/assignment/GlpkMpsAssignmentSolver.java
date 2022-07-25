@@ -51,7 +51,7 @@ public class GlpkMpsAssignmentSolver implements AssignmentSolver {
 	}
 
 	@Override
-	public Solution solve(Stream<AlonsoMoraTrip> candidates) {
+	public Solution solve(Stream<AlonsoMoraTrip> candidates, boolean prebookedConstraint) {
 		try {
 			List<AlonsoMoraTrip> tripList = candidates.collect(Collectors.toList());
 			new MpsAssignmentWriter(tripList, unassignmentPenalty, rejectionPenalty).write(problemPath);

@@ -32,7 +32,7 @@ public class GreedyTripFirstSolver implements AssignmentSolver {
 	}
 
 	@Override
-	public Solution solve(Stream<AlonsoMoraTrip> candidates) {
+	public Solution solve(Stream<AlonsoMoraTrip> candidates, boolean prebookedConstraint) {
 		List<AlonsoMoraTrip> candidateList = candidates.collect(Collectors.toList());
 		Collections.sort(candidateList, new TripComparator());
 

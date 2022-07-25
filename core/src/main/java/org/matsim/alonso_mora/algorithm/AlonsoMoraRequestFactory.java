@@ -12,5 +12,5 @@ import org.matsim.contrib.drt.passenger.DrtRequest;
  */
 public interface AlonsoMoraRequestFactory {
 	AlonsoMoraRequest createRequest(Collection<DrtRequest> requests, double directArrvialTime, double earliestDepartureTime,
-			double directRideDistance);
+			double directRideDistance, double now);
 }

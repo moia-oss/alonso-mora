@@ -368,7 +368,7 @@ public class AlonsoMoraModeQSimModule extends AbstractDvrpModeQSimModule {
 		bindModal(AlonsoMoraVehicleFactory.class).toInstance(vehicle -> new DefaultAlonsoMoraVehicle(vehicle));
 
 		bindModal(AlonsoMoraRequestFactory.class).toProvider(modalProvider(getter -> {
-			return new DefaultAlonsoMoraRequestFactory(amConfig.getMaximumQueueTime());
+			return new DefaultAlonsoMoraRequestFactory(amConfig.getMaximumQueueTime(), drtConfig.getAdvanceRequestPlanningHorizon());
 		}));
 
 		bindModal(AlonsoMoraOptimizer.class).toProvider(modalProvider(getter -> {

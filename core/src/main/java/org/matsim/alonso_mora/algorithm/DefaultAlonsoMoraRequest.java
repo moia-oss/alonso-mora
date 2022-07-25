@@ -47,8 +47,10 @@ public class DefaultAlonsoMoraRequest implements AlonsoMoraRequest {
 
 	private final double directRideDistance;
 
+	private final boolean prebooked;
+
 	public DefaultAlonsoMoraRequest(Collection<DrtRequest> drtRequests, double latestAssignmentTime,
-			double directArrivalTime, double directRideDistance) {
+			double directArrivalTime, double directRideDistance, boolean isPrebooked) {
 		this.directArrivalTime = directArrivalTime;
 		this.directRideDistance = directRideDistance;
 
@@ -84,6 +86,8 @@ public class DefaultAlonsoMoraRequest implements AlonsoMoraRequest {
 		}
 
 		this.latestAssignmentTime = Math.min(getLatestPickupTime(), latestAssignmentTime);
+
+		this.prebooked = isPrebooked;
 	}
 
 	@Override
@@ -193,6 +197,12 @@ public class DefaultAlonsoMoraRequest implements AlonsoMoraRequest {
 	@Override
 	public boolean isAssigned() {
 		return this.vehicle != null;
+	}
+
+	//TODO add new attr to check if prebooked
+	@Override
+	public boolean isPrebooked() {
+		return this.prebooked;
 	}
 
 	@Override
