@@ -50,7 +50,7 @@ public class GreedyVehicleFirstAssignmentSolverTest {
 		AlonsoMoraTrip trip = mockTrip(vehicle, 100.0, request);
 
 		List<AlonsoMoraTrip> candidates = Arrays.asList(trip);
-		Collection<AlonsoMoraTrip> selection = solver.solve(candidates.stream()).trips;
+		Collection<AlonsoMoraTrip> selection = solver.solve(candidates.stream(), true).trips;
 
 		Assert.assertEquals(1, selection.size());
 		Assert.assertTrue(selection.contains(trip));
@@ -69,7 +69,7 @@ public class GreedyVehicleFirstAssignmentSolverTest {
 		AlonsoMoraTrip trip2 = mockTrip(vehicle2, 200.0, request2);
 
 		List<AlonsoMoraTrip> candidates = Arrays.asList(trip1, trip2);
-		Collection<AlonsoMoraTrip> selection = solver.solve(candidates.stream()).trips;
+		Collection<AlonsoMoraTrip> selection = solver.solve(candidates.stream(), true).trips;
 
 		Assert.assertEquals(2, selection.size());
 		Assert.assertTrue(selection.contains(trip1));
@@ -90,7 +90,7 @@ public class GreedyVehicleFirstAssignmentSolverTest {
 			AlonsoMoraTrip trip3 = mockTrip(vehicle, 300.0, request1, request2);
 
 			List<AlonsoMoraTrip> candidates = Arrays.asList(trip1, trip2, trip3);
-			Collection<AlonsoMoraTrip> selection = solver.solve(candidates.stream()).trips;
+			Collection<AlonsoMoraTrip> selection = solver.solve(candidates.stream(), true).trips;
 
 			Assert.assertEquals(1, selection.size());
 			Assert.assertTrue(selection.contains(trip1));
@@ -102,7 +102,7 @@ public class GreedyVehicleFirstAssignmentSolverTest {
 			AlonsoMoraTrip trip3 = mockTrip(vehicle, 200.0, request1, request2);
 
 			List<AlonsoMoraTrip> candidates = Arrays.asList(trip1, trip2, trip3);
-			Collection<AlonsoMoraTrip> selection = solver.solve(candidates.stream()).trips;
+			Collection<AlonsoMoraTrip> selection = solver.solve(candidates.stream(), true).trips;
 
 			Assert.assertEquals(1, selection.size());
 			Assert.assertTrue(selection.contains(trip2));
@@ -114,7 +114,7 @@ public class GreedyVehicleFirstAssignmentSolverTest {
 			AlonsoMoraTrip trip3 = mockTrip(vehicle, 50.0, request1, request2); // Combination is best
 
 			List<AlonsoMoraTrip> candidates = Arrays.asList(trip1, trip2, trip3);
-			Collection<AlonsoMoraTrip> selection = solver.solve(candidates.stream()).trips;
+			Collection<AlonsoMoraTrip> selection = solver.solve(candidates.stream(), true).trips;
 
 			Assert.assertEquals(1, selection.size());
 			Assert.assertTrue(selection.contains(trip3));
@@ -138,7 +138,7 @@ public class GreedyVehicleFirstAssignmentSolverTest {
 			AlonsoMoraTrip trip4 = mockTrip(vehicle2, 300.0, request1, request2);
 
 			List<AlonsoMoraTrip> candidates = Arrays.asList(trip1, trip2, trip3, trip4);
-			Collection<AlonsoMoraTrip> selection = solver.solve(candidates.stream()).trips;
+			Collection<AlonsoMoraTrip> selection = solver.solve(candidates.stream(), true).trips;
 
 			Assert.assertEquals(1, selection.size());
 			Assert.assertTrue(selection.contains(trip3));
@@ -151,7 +151,7 @@ public class GreedyVehicleFirstAssignmentSolverTest {
 			AlonsoMoraTrip trip4 = mockTrip(vehicle2, 300.0, request1, request2);
 
 			List<AlonsoMoraTrip> candidates = Arrays.asList(trip1, trip2, trip3, trip4);
-			Collection<AlonsoMoraTrip> selection = solver.solve(candidates.stream()).trips;
+			Collection<AlonsoMoraTrip> selection = solver.solve(candidates.stream(), true).trips;
 
 			Assert.assertEquals(2, selection.size());
 			Assert.assertTrue(selection.contains(trip1));

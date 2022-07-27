@@ -155,6 +155,11 @@ public class DefaultRequestGraphTest {
 		}
 
 		@Override
+		public boolean isPrebooked() {
+			return false;
+		}
+
+		@Override
 		public int getSize() {
 			// TODO Auto-generated method stub
 			return 0;
