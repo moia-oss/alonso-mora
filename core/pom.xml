@@ -9,6 +9,6 @@
 	<parent>
 		<groupId>org.matsim</groupId>
 		<artifactId>alonso-mora</artifactId>
-		<version>1.0.0</version>
+		<version>master-thesis-preopt</version>
 	</parent>
 </project>

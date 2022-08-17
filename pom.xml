@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.matsim</groupId>
 	<artifactId>alonso-mora</artifactId>
-	<version>1.0.0</version>
+	<version>master-thesis-preopt</version>
 	<packaging>pom</packaging>
 	<name>Implementation of the fleet dispatcher by Alonso-Mora et al. for MATSim</name>
 	<description>This package implements the pooled fleet dispatching algorithm introduced by
@@ -16,7 +16,7 @@ to the MATSim framework.</description>
 	<properties>
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
-		<matsim.version>15.0-SNAPSHOT</matsim.version>
+		<matsim.version>moia-latest-SNAPSHOT</matsim.version>
 	</properties>
 
 	<repositories>
@@ -89,12 +89,6 @@ to the MATSim framework.</description>
 			<groupId>org.matsim</groupId>
 			<artifactId>matsim</artifactId>
 			<version>${matsim.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.matsim.alonso-mora</groupId>
-			<artifactId>core</artifactId>
-			<version>1.0.0</version>
-			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 </project>
