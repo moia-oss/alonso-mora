@@ -16,12 +16,9 @@ import org.matsim.alonso_mora.algorithm.relocation.BestResponseRelocationSolver;
 import org.matsim.alonso_mora.algorithm.relocation.CbcMpsRelocationSolver;
 import org.matsim.alonso_mora.algorithm.relocation.GlpkMpsRelocationSolver;
 import org.matsim.alonso_mora.algorithm.relocation.RelocationSolver;
-import org.matsim.alonso_mora.scheduling.AlonsoMoraScheduler;
-import org.matsim.alonso_mora.scheduling.DefaultAlonsoMoraScheduler;
+import org.matsim.alonso_mora.scheduling.*;
 import org.matsim.alonso_mora.scheduling.DefaultAlonsoMoraScheduler.NoopOperationalVoter;
 import org.matsim.alonso_mora.scheduling.DefaultAlonsoMoraScheduler.OperationalVoter;
-import org.matsim.alonso_mora.scheduling.ParallelLeastCostPathCalculator;
-import org.matsim.alonso_mora.scheduling.StandardRebalancer;
 import org.matsim.alonso_mora.travel_time.*;
 import org.matsim.api.core.v01.network.Network;
 import org.matsim.contrib.drt.optimizer.DrtOptimizer;
@@ -320,7 +317,7 @@ public class AlonsoMoraModeQSimModule extends AbstractDvrpModeQSimModule {
 
 			return new DefaultAlonsoMoraScheduler(taskFactory, drtConfig.getStopDuration(),
 					amConfig.getCheckDeterminsticTravelTimes(), amConfig.getRerouteDuringScheduling(), travelTime,
-					network, endTimeCalculator, router, operationalVoter);
+					network, endTimeCalculator, router, operationalVoter, new DefaultAlonsoMoraTaskFactory());
 		}));
 
 		bindModal(OperationalVoter.class).toInstance(new NoopOperationalVoter());

@@ -61,10 +61,12 @@ public class DefaultAlonsoMoraScheduler implements AlonsoMoraScheduler {
 
 	private final StayTaskEndTimeCalculator endTimeCalculator;
 
+	private final AlonsoMoraTaskFactory amTaskFactory;
+
 	public DefaultAlonsoMoraScheduler(DrtTaskFactory taskFactory, double stopDuration,
-			boolean checkDeterminsticTravelTimes, boolean reroutingDuringScheduling, TravelTime travelTime,
-			Network network, StayTaskEndTimeCalculator endTimeCalculator, LeastCostPathCalculator router,
-			OperationalVoter operationalVoter) {
+									  boolean checkDeterminsticTravelTimes, boolean reroutingDuringScheduling, TravelTime travelTime,
+									  Network network, StayTaskEndTimeCalculator endTimeCalculator, LeastCostPathCalculator router,
+									  OperationalVoter operationalVoter, AlonsoMoraTaskFactory amTaskFactory) {
 		this.taskFactory = taskFactory;
 		this.stopDuration = stopDuration;
 		this.checkDeterminsticTravelTimes = checkDeterminsticTravelTimes;
@@ -73,6 +75,7 @@ public class DefaultAlonsoMoraScheduler implements AlonsoMoraScheduler {
 		this.travelTime = travelTime;
 		this.router = router;
 		this.operationalVoter = operationalVoter;
+		this.amTaskFactory = amTaskFactory;
 	}
 
 	/**
@@ -169,7 +172,7 @@ public class DefaultAlonsoMoraScheduler implements AlonsoMoraScheduler {
 			boolean isStayTask = task instanceof DrtStayTask;
 			boolean isStopTask = task instanceof DrtStopTask;
 			boolean isDriveTask = task instanceof DrtDriveTask;
-			boolean isWaitForStopTask = task instanceof WaitForStopTask;
+			boolean isWaitForStopTask = task instanceof WaitForStopTaskImpl;
 			boolean isOperationalTask = operationalVoter.isOperationalTask(task);
 			//boolean isWaitForShiftTask = task instanceof WaitForShiftStayTask;
 
@@ -202,7 +205,7 @@ public class DefaultAlonsoMoraScheduler implements AlonsoMoraScheduler {
 		} else if (currentTask instanceof StayTask) {
 			currentLink = ((StayTask) currentTask).getLink();
 
-			if (currentTask instanceof DrtStayTask || currentTask instanceof WaitForStopTask) {
+			if (currentTask instanceof DrtStayTask || currentTask instanceof WaitForStopTaskImpl) {
 				// If we are currently staying somewhere, end the stay task now
 				currentTask.setEndTime(now);
 			}
@@ -264,7 +267,7 @@ public class DefaultAlonsoMoraScheduler implements AlonsoMoraScheduler {
 					double expectedStartTime = stop.getRequest().getEarliestPickupTime() - stopDuration;
 
 					if (expectedStartTime > currentTask.getEndTime()) {
-						currentTask = new WaitForStopTask(currentTask.getEndTime(), expectedStartTime, currentLink);
+						currentTask = amTaskFactory.createWaitForStopTask(currentTask.getEndTime(), expectedStartTime, currentLink);
 						schedule.addTask(currentTask);
 					}
 				}

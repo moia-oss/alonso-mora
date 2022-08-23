@@ -6,6 +6,7 @@ import org.matsim.alonso_mora.algorithm.AlonsoMoraVehicleFactory;
 import org.matsim.alonso_mora.algorithm.function.DefaultAlonsoMoraFunction.Constraint;
 import org.matsim.alonso_mora.scheduling.AlonsoMoraScheduler;
 import org.matsim.alonso_mora.scheduling.DefaultAlonsoMoraScheduler.OperationalVoter;
+import org.matsim.alonso_mora.scheduling.DefaultAlonsoMoraTaskFactory;
 import org.matsim.alonso_mora.travel_time.TravelTimeEstimator;
 import org.matsim.api.core.v01.network.Network;
 import org.matsim.contrib.drt.extension.shifts.config.DrtWithShiftsConfigGroup;
@@ -69,7 +70,7 @@ public class ShiftAlonsoMoraModule extends AbstractDvrpModeQSimModule {
 
 			return new ShiftAlonsoMoraScheduler(taskFactory, drtConfig.getStopDuration(),
 					amConfig.getCheckDeterminsticTravelTimes(), amConfig.getRerouteDuringScheduling(), travelTime,
-					network, endTimeCalculator, router, operationalVoter);
+					network, endTimeCalculator, router, operationalVoter, new DefaultAlonsoMoraTaskFactory());
 		}));
 	}
 }

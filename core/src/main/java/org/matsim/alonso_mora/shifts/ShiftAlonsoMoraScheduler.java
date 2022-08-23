@@ -11,7 +11,9 @@ import org.matsim.alonso_mora.algorithm.AlonsoMoraStop;
 import org.matsim.alonso_mora.algorithm.AlonsoMoraStop.StopType;
 import org.matsim.alonso_mora.algorithm.AlonsoMoraVehicle;
 import org.matsim.alonso_mora.scheduling.AlonsoMoraScheduler;
-import org.matsim.alonso_mora.scheduling.WaitForStopTask;
+import org.matsim.alonso_mora.scheduling.AlonsoMoraTaskFactory;
+import org.matsim.alonso_mora.scheduling.DefaultAlonsoMoraScheduler;
+import org.matsim.alonso_mora.scheduling.WaitForStopTaskImpl;
 import org.matsim.api.core.v01.network.Link;
 import org.matsim.api.core.v01.network.Network;
 import org.matsim.contrib.drt.extension.shifts.schedule.ShiftBreakTask;
@@ -65,10 +67,12 @@ public class ShiftAlonsoMoraScheduler implements AlonsoMoraScheduler {
 
     private final StayTaskEndTimeCalculator endTimeCalculator;
 
+    private final AlonsoMoraTaskFactory amTaskFactory;
+
     public ShiftAlonsoMoraScheduler(DrtTaskFactory taskFactory, double stopDuration,
                                     boolean checkDeterminsticTravelTimes, boolean reroutingDuringScheduling, TravelTime travelTime,
                                     Network network, StayTaskEndTimeCalculator endTimeCalculator, LeastCostPathCalculator router,
-                                    org.matsim.alonso_mora.scheduling.DefaultAlonsoMoraScheduler.OperationalVoter operationalVoter) {
+                                    DefaultAlonsoMoraScheduler.OperationalVoter operationalVoter, AlonsoMoraTaskFactory amTaskFactory) {
         this.taskFactory = taskFactory;
         this.stopDuration = stopDuration;
         this.checkDeterminsticTravelTimes = checkDeterminsticTravelTimes;
@@ -77,6 +81,7 @@ public class ShiftAlonsoMoraScheduler implements AlonsoMoraScheduler {
         this.travelTime = travelTime;
         this.router = router;
         this.operationalVoter = operationalVoter;
+        this.amTaskFactory = amTaskFactory;
     }
 
     /**
@@ -173,7 +178,7 @@ public class ShiftAlonsoMoraScheduler implements AlonsoMoraScheduler {
             boolean isStayTask = task instanceof DrtStayTask;
             boolean isStopTask = task instanceof DrtStopTask;
             boolean isDriveTask = task instanceof DrtDriveTask;
-            boolean isWaitForStopTask = task instanceof WaitForStopTask;
+            boolean isWaitForStopTask = task instanceof WaitForStopTaskImpl;
             boolean isOperationalTask = operationalVoter.isOperationalTask(task);
 
             Verify.verify(isStayTask || isStopTask || isDriveTask || isWaitForStopTask || isOperationalTask,
@@ -205,7 +210,7 @@ public class ShiftAlonsoMoraScheduler implements AlonsoMoraScheduler {
         } else if (currentTask instanceof StayTask) {
             currentLink = ((StayTask) currentTask).getLink();
 
-            if (currentTask instanceof DrtStayTask || currentTask instanceof WaitForStopTask) {
+            if (currentTask instanceof DrtStayTask || currentTask instanceof WaitForStopTaskImpl) {
                 // If we are currently staying somewhere, end the stay task now
                 currentTask.setEndTime(now);
             }
@@ -267,7 +272,7 @@ public class ShiftAlonsoMoraScheduler implements AlonsoMoraScheduler {
                     double expectedStartTime = stop.getRequest().getEarliestPickupTime() - stopDuration;
 
                     if (expectedStartTime > currentTask.getEndTime()) {
-                        currentTask = new WaitForStopTask(currentTask.getEndTime(), expectedStartTime, currentLink);
+                        currentTask = amTaskFactory.createWaitForStopTask(currentTask.getEndTime(), expectedStartTime, currentLink);
                         schedule.addTask(currentTask);
                     }
                 }
