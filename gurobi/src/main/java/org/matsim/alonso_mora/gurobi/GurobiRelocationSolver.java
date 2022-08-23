@@ -1,4 +1,4 @@
-package org.matsim.alonso_mora.gurobi;
+/*package org.matsim.alonso_mora.gurobi;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,6 +22,7 @@ import gurobi.GRBVar;
  * 
  * @author sebhoerl
  */
+/*
 public class GurobiRelocationSolver implements RelocationSolver {
 	public static final String TYPE = "Gurobi";
 	
@@ -108,3 +109,4 @@ public class GurobiRelocationSolver implements RelocationSolver {
 		}
 	}
 }
+*/

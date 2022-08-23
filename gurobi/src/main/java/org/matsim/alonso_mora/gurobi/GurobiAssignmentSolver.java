@@ -1,4 +1,4 @@
-package org.matsim.alonso_mora.gurobi;
+/*package org.matsim.alonso_mora.gurobi;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,6 +30,7 @@ import gurobi.GurobiJni;
  * 
  * @author sebhoerl
  */
+/*
 public class GurobiAssignmentSolver implements AssignmentSolver {
 	public static final String TYPE = "Gurobi";
 
@@ -207,3 +208,4 @@ public class GurobiAssignmentSolver implements AssignmentSolver {
 		return false;
 	}
 }
+*/

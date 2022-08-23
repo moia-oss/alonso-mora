@@ -1,4 +1,4 @@
-package org.matsim.alonso_mora.gurobi;
+/*package org.matsim.alonso_mora.gurobi;
 
 import org.matsim.alonso_mora.AlonsoMoraConfigGroup.AssignmentSolverParameters;
 import org.matsim.core.config.Config;
@@ -15,4 +15,4 @@ public class GurobiAssignmentParameters extends AssignmentSolverParameters {
 		super.checkConsistency(config);
 		Verify.verify(GurobiAssignmentSolver.checkAvailability());
 	}
-}
+}*/

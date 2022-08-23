@@ -1,4 +1,4 @@
-package org.matsim.alonso_mora.gurobi;
+/*package org.matsim.alonso_mora.gurobi;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,6 +21,7 @@ import ilog.cplex.IloCplex;
  * 
  * @author sebhoerl
  */
+/*
 public class CplexRelocationSolver implements RelocationSolver {
 	public static final String TYPE = "CPLEX";
 
@@ -105,3 +106,4 @@ public class CplexRelocationSolver implements RelocationSolver {
 		}
 	}
 }
+*/

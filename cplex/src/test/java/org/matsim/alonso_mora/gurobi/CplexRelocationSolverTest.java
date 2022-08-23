@@ -1,4 +1,4 @@
-package org.matsim.alonso_mora.gurobi;
+/*package org.matsim.alonso_mora.gurobi;
 
 import static org.junit.Assert.assertEquals;
 
@@ -83,3 +83,4 @@ public class CplexRelocationSolverTest {
 		assertEquals(0, solution.size());
 	}
 }
+*/

@@ -1,4 +1,4 @@
-package org.matsim.alonso_mora.gurobi;
+/*package org.matsim.alonso_mora.gurobi;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,6 +28,7 @@ import ilog.cplex.IloCplex;
  * 
  * @author sebhoerl
  */
+/*
 public class CplexAssignmentSolver implements AssignmentSolver {
 	public static final String TYPE = "CPLEX";
 
@@ -218,3 +219,4 @@ public class CplexAssignmentSolver implements AssignmentSolver {
 		return false;
 	}
 }
+*/

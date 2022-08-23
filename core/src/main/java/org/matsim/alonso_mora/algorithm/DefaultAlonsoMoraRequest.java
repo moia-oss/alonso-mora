@@ -1,11 +1,10 @@
 package org.matsim.alonso_mora.algorithm;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
+import org.matsim.alonso_mora.AlonsoMoraConfigGroup;
+import org.matsim.alonso_mora.AlonsoMoraOptimizer;
 import org.matsim.api.core.v01.network.Link;
 import org.matsim.contrib.drt.passenger.DrtRequest;
 import org.matsim.contrib.drt.schedule.DrtStopTask;
@@ -43,11 +42,13 @@ public class DefaultAlonsoMoraRequest implements AlonsoMoraRequest {
 	private final Link dropoffLink;
 	private final double latestPickupTime;
 	private final double latestDropoffTime;
-	private final double earliestPickupTime;
+	private double earliestPickupTime;
 
 	private final double directRideDistance;
 
 	private final boolean prebooked;
+
+	static Random random = new Random(1);
 
 	public DefaultAlonsoMoraRequest(Collection<DrtRequest> drtRequests, double latestAssignmentTime,
 			double directArrivalTime, double directRideDistance, boolean isPrebooked) {
@@ -87,6 +88,25 @@ public class DefaultAlonsoMoraRequest implements AlonsoMoraRequest {
 
 		this.latestAssignmentTime = Math.min(getLatestPickupTime(), latestAssignmentTime);
 
+		//changes for time windows
+
+		double r = random.nextDouble();
+
+		if (AlonsoMoraConfigGroup.getPreOPT().equals("push")) {
+			this.latestAssignmentTime = earliestPickupTime + 1800;
+		} else if (AlonsoMoraConfigGroup.getPreOPT().equals("window")) {
+			double[] split = AlonsoMoraConfigGroup.getSplit();
+			if (r < split[0]) {
+				this.latestAssignmentTime = earliestPickupTime + 600;
+				AlonsoMoraOptimizer.splitMap.put(this.drtRequests.get(0).getPassengerId(),600);
+			} else if (r < split[0] + split[1]) {
+				this.latestAssignmentTime = earliestPickupTime + 1200;
+				AlonsoMoraOptimizer.splitMap.put(this.drtRequests.get(0).getPassengerId(),1200);
+			} else {
+				this.latestAssignmentTime = earliestPickupTime + 1800;
+				AlonsoMoraOptimizer.splitMap.put(this.drtRequests.get(0).getPassengerId(),1800);
+			}
+		}
 		this.prebooked = isPrebooked;
 	}
 

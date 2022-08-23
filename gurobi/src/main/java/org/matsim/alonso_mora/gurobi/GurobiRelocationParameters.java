@@ -1,4 +1,4 @@
-package org.matsim.alonso_mora.gurobi;
+/*package org.matsim.alonso_mora.gurobi;
 
 import org.matsim.alonso_mora.AlonsoMoraConfigGroup.RelocationSolverParameters;
 import org.matsim.core.config.Config;
@@ -16,3 +16,4 @@ public class GurobiRelocationParameters extends RelocationSolverParameters {
 		Verify.verify(GurobiAssignmentSolver.checkAvailability());
 	}
 }
+*/

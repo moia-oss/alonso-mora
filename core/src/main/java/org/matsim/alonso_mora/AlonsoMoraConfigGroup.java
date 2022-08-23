@@ -37,6 +37,18 @@ import jakarta.validation.constraints.PositiveOrZero;
 public class AlonsoMoraConfigGroup extends ReflectiveConfigGroup {
 	public final static String GROUP_NAME = "drtAlonsoMora";
 
+	public static String preOPT = "No";
+	public static double[] split = new double[2];
+
+	public static String getPreOPT() {
+		return preOPT;
+	}
+
+	public static double[] getSplit() {
+		return split;
+	}
+
+
 	public AlonsoMoraConfigGroup() {
 		super(GROUP_NAME);
 

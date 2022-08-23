@@ -1,19 +1,15 @@
 package org.matsim.alonso_mora;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
-import java.util.PriorityQueue;
-import java.util.Queue;
+import java.util.*;
 import java.util.concurrent.ForkJoinPool;
 import java.util.stream.IntStream;
 
+import org.apache.log4j.Logger;
 import org.matsim.alonso_mora.algorithm.AlonsoMoraAlgorithm;
 import org.matsim.alonso_mora.algorithm.AlonsoMoraRequest;
 import org.matsim.alonso_mora.algorithm.AlonsoMoraRequestFactory;
+import org.matsim.api.core.v01.Id;
+import org.matsim.api.core.v01.population.Person;
 import org.matsim.contrib.drt.optimizer.DrtOptimizer;
 import org.matsim.contrib.drt.passenger.DrtRequest;
 import org.matsim.contrib.dvrp.fleet.DvrpVehicle;
@@ -47,6 +43,9 @@ public class AlonsoMoraOptimizer implements DrtOptimizer {
 	private final TravelTime travelTime;
 
 	private final InformationCollector collector;
+
+	public static Map<Id<Person>, Integer> splitMap = new HashMap<>();
+	private final Logger logger = Logger.getLogger(AlonsoMoraOptimizer.class);
 
 	private final Queue<AlonsoMoraRequest> prebookingQueue = new PriorityQueue<>((a, b) -> {
 		return Double.compare(a.getEarliestPickupTime(), b.getEarliestPickupTime());
@@ -113,7 +112,13 @@ public class AlonsoMoraOptimizer implements DrtOptimizer {
 	@Override
 	public void notifyMobsimBeforeSimStep(@SuppressWarnings("rawtypes") MobsimBeforeSimStepEvent e) {
 		double now = e.getSimulationTime();
-		
+
+		if (now == (24.0*60.0*60.0)) {
+			for (Map.Entry<Id<Person>, Integer> entry : splitMap.entrySet()) {
+				logger.info("" + entry.getKey() + "," + entry.getValue());
+			}
+		}
+
 		if (now % assignmentInterval == 0) {
 			List<AlonsoMoraRequest> newRequests = new LinkedList<>();
 

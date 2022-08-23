@@ -1,4 +1,4 @@
-package org.matsim.alonso_mora.gurobi;
+/*package org.matsim.alonso_mora.gurobi;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -131,3 +131,4 @@ public class GurobiAssignmentSolverTest {
 		}
 	}
 }
+*/
