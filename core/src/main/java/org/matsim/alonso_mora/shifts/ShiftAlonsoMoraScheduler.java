@@ -10,10 +10,7 @@ import org.matsim.alonso_mora.algorithm.AlonsoMoraRequest;
 import org.matsim.alonso_mora.algorithm.AlonsoMoraStop;
 import org.matsim.alonso_mora.algorithm.AlonsoMoraStop.StopType;
 import org.matsim.alonso_mora.algorithm.AlonsoMoraVehicle;
-import org.matsim.alonso_mora.scheduling.AlonsoMoraScheduler;
-import org.matsim.alonso_mora.scheduling.AlonsoMoraTaskFactory;
-import org.matsim.alonso_mora.scheduling.DefaultAlonsoMoraScheduler;
-import org.matsim.alonso_mora.scheduling.WaitForStopTaskImpl;
+import org.matsim.alonso_mora.scheduling.*;
 import org.matsim.api.core.v01.network.Link;
 import org.matsim.api.core.v01.network.Network;
 import org.matsim.contrib.drt.extension.shifts.schedule.ShiftBreakTask;
@@ -178,7 +175,7 @@ public class ShiftAlonsoMoraScheduler implements AlonsoMoraScheduler {
             boolean isStayTask = task instanceof DrtStayTask;
             boolean isStopTask = task instanceof DrtStopTask;
             boolean isDriveTask = task instanceof DrtDriveTask;
-            boolean isWaitForStopTask = task instanceof WaitForStopTaskImpl;
+            boolean isWaitForStopTask = task instanceof WaitForStopTask;
             boolean isOperationalTask = operationalVoter.isOperationalTask(task);
 
             Verify.verify(isStayTask || isStopTask || isDriveTask || isWaitForStopTask || isOperationalTask,
