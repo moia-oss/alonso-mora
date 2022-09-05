@@ -40,8 +40,8 @@ public class DefaultAlonsoMoraRequest implements AlonsoMoraRequest {
 
 	private final Link pickupLink;
 	private final Link dropoffLink;
-	private final double latestPickupTime;
-	private final double latestDropoffTime;
+	private double latestPickupTime;
+	private double latestDropoffTime;
 	private double earliestPickupTime;
 
 	private final double directRideDistance;
@@ -89,21 +89,36 @@ public class DefaultAlonsoMoraRequest implements AlonsoMoraRequest {
 		this.latestAssignmentTime = Math.min(getLatestPickupTime(), latestAssignmentTime);
 
 		//changes for time windows
-
 		double r = random.nextDouble();
 
 		if (AlonsoMoraConfigGroup.getPreOPT().equals("push")) {
 			this.latestAssignmentTime = earliestPickupTime + 1800;
+			this.latestPickupTime = earliestPickupTime + 1800;
+			if (AlonsoMoraConfigGroup.isBigTimeWindows()) {
+				this.latestDropoffTime = this.latestDropoffTime + 1800;
+			}
 		} else if (AlonsoMoraConfigGroup.getPreOPT().equals("window")) {
 			double[] split = AlonsoMoraConfigGroup.getSplit();
 			if (r < split[0]) {
 				this.latestAssignmentTime = earliestPickupTime + 600;
+				this.latestPickupTime = earliestPickupTime + 600;
+				if (AlonsoMoraConfigGroup.isBigTimeWindows()) {
+					this.latestDropoffTime = this.latestDropoffTime + 600;
+				}
 				AlonsoMoraOptimizer.splitMap.put(this.drtRequests.get(0).getPassengerId(),600);
 			} else if (r < split[0] + split[1]) {
 				this.latestAssignmentTime = earliestPickupTime + 1200;
+				this.latestPickupTime = earliestPickupTime + 1200;
+				if (AlonsoMoraConfigGroup.isBigTimeWindows()) {
+					this.latestDropoffTime = this.latestDropoffTime + 1200;
+				}
 				AlonsoMoraOptimizer.splitMap.put(this.drtRequests.get(0).getPassengerId(),1200);
 			} else {
 				this.latestAssignmentTime = earliestPickupTime + 1800;
+				this.latestPickupTime = earliestPickupTime + 1800;
+				if (AlonsoMoraConfigGroup.isBigTimeWindows()) {
+					this.latestDropoffTime = this.latestDropoffTime + 1800;
+				}
 				AlonsoMoraOptimizer.splitMap.put(this.drtRequests.get(0).getPassengerId(),1800);
 			}
 		}

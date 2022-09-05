@@ -38,6 +38,7 @@ public class AlonsoMoraConfigGroup extends ReflectiveConfigGroup {
 	public final static String GROUP_NAME = "drtAlonsoMora";
 
 	public static String preOPT = "No";
+	public static boolean bigTimeWindows = false;
 	public static double[] split = new double[2];
 
 	public static String getPreOPT() {
@@ -47,6 +48,8 @@ public class AlonsoMoraConfigGroup extends ReflectiveConfigGroup {
 	public static double[] getSplit() {
 		return split;
 	}
+
+	public static boolean isBigTimeWindows() {return bigTimeWindows;}
 
 
 	public AlonsoMoraConfigGroup() {

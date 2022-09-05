@@ -172,7 +172,7 @@ public class DefaultAlonsoMoraScheduler implements AlonsoMoraScheduler {
 			boolean isStayTask = task instanceof DrtStayTask;
 			boolean isStopTask = task instanceof DrtStopTask;
 			boolean isDriveTask = task instanceof DrtDriveTask;
-			boolean isWaitForStopTask = task instanceof WaitForStopTaskImpl;
+			boolean isWaitForStopTask = task instanceof WaitForStopTask;
 			boolean isOperationalTask = operationalVoter.isOperationalTask(task);
 			//boolean isWaitForShiftTask = task instanceof WaitForShiftStayTask;
 
