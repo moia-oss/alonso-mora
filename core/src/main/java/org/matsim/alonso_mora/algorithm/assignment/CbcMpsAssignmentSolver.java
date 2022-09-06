@@ -1,21 +1,16 @@
 package org.matsim.alonso_mora.algorithm.assignment;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.matsim.alonso_mora.algorithm.AlonsoMoraTrip;
+import org.matsim.alonso_mora.algorithm.assignment.AssignmentSolver.Solution.Status;
+
+import java.io.*;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import org.apache.log4j.Logger;
-import org.matsim.alonso_mora.algorithm.AlonsoMoraTrip;
-import org.matsim.alonso_mora.algorithm.assignment.AssignmentSolver.Solution.Status;
 
 /**
  * Solves the assignment problem as described by Alonso-Mora et al. using the
@@ -27,7 +22,7 @@ import org.matsim.alonso_mora.algorithm.assignment.AssignmentSolver.Solution.Sta
 public class CbcMpsAssignmentSolver implements AssignmentSolver {
 	static public final String TYPE = "CbcMps";
 
-	private final static Logger logger = Logger.getLogger(CbcMpsAssignmentSolver.class);
+	private final static Logger logger = LogManager.getLogger(CbcMpsAssignmentSolver.class);
 
 	private final double rejectionPenalty;
 	private final double unassignmentPenalty;

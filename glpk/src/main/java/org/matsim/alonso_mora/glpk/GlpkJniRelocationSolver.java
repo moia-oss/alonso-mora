@@ -1,20 +1,12 @@
 package org.matsim.alonso_mora.glpk;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.apache.log4j.Logger;
-import org.gnu.glpk.GLPK;
-import org.gnu.glpk.GLPKConstants;
-import org.gnu.glpk.SWIGTYPE_p_double;
-import org.gnu.glpk.SWIGTYPE_p_int;
-import org.gnu.glpk.glp_iocp;
-import org.gnu.glpk.glp_prob;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.gnu.glpk.*;
 import org.matsim.alonso_mora.algorithm.relocation.RelocationSolver;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Implements the relocation solver as propose in Alonso-Mora et al. (2017)
@@ -26,7 +18,7 @@ import org.matsim.alonso_mora.algorithm.relocation.RelocationSolver;
 public class GlpkJniRelocationSolver implements RelocationSolver {
 	static public final String TYPE = "GlpkJni";
 
-	private static final Logger logger = Logger.getLogger(GlpkJniRelocationSolver.class);
+	private static final Logger logger = LogManager.getLogger(GlpkJniRelocationSolver.class);
 
 	@Override
 	public Collection<Relocation> solve(List<Relocation> candidates) {
