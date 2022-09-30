@@ -51,6 +51,8 @@ public class AlonsoMoraConfigGroup extends ReflectiveConfigGroup {
 
 	public static boolean isBigTimeWindows() {return bigTimeWindows;}
 
+	public static boolean test = true;
+
 
 	public AlonsoMoraConfigGroup() {
 		super(GROUP_NAME);

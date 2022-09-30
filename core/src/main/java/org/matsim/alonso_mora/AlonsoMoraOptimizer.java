@@ -4,7 +4,8 @@ import java.util.*;
 import java.util.concurrent.ForkJoinPool;
 import java.util.stream.IntStream;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.matsim.alonso_mora.algorithm.AlonsoMoraAlgorithm;
 import org.matsim.alonso_mora.algorithm.AlonsoMoraRequest;
 import org.matsim.alonso_mora.algorithm.AlonsoMoraRequestFactory;
@@ -45,7 +46,7 @@ public class AlonsoMoraOptimizer implements DrtOptimizer {
 	private final InformationCollector collector;
 
 	public static Map<Id<Person>, Integer> splitMap = new HashMap<>();
-	private final Logger logger = Logger.getLogger(AlonsoMoraOptimizer.class);
+	private final Logger logger = LogManager.getLogger(AlonsoMoraOptimizer.class);
 
 	private final Queue<AlonsoMoraRequest> prebookingQueue = new PriorityQueue<>((a, b) -> {
 		return Double.compare(a.getEarliestPickupTime(), b.getEarliestPickupTime());

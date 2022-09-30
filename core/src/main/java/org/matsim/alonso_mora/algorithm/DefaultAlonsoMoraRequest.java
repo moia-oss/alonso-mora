@@ -79,7 +79,7 @@ public class DefaultAlonsoMoraRequest implements AlonsoMoraRequest {
 		this.latestDropoffTime = this.drtRequests.stream().mapToDouble(r -> r.getLatestArrivalTime()).min()
 				.getAsDouble();
 		this.earliestPickupTime = this.drtRequests.stream().mapToDouble(r -> r.getEarliestStartTime()).max()
-				.getAsDouble();
+				.getAsDouble() - 1800;
 
 		for (DrtRequest request : this.drtRequests) {
 			Verify.verify(this.pickupLink.equals(request.getFromLink()));
