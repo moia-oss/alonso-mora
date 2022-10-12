@@ -12,6 +12,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.matsim.alonso_mora.algorithm.AlonsoMoraTrip;
+import org.matsim.alonso_mora.algorithm.assignment.AssignmentSolver.Solution.Status;
+
 /**
  * Solves the assignment problem as described by Alonso-Mora et al. using the
  * Cbc solver via file transmission. Cbc must be avaialble on the system to use

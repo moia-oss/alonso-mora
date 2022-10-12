@@ -1,8 +1,20 @@
 package org.matsim.alonso_mora.glpk;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.gnu.glpk.*;
+import org.gnu.glpk.GLPK;
+import org.gnu.glpk.GLPKConstants;
+import org.gnu.glpk.SWIGTYPE_p_double;
+import org.gnu.glpk.SWIGTYPE_p_int;
+import org.gnu.glpk.glp_iocp;
+import org.gnu.glpk.glp_prob;
 import org.matsim.alonso_mora.algorithm.relocation.RelocationSolver;
 
 import java.util.*;
