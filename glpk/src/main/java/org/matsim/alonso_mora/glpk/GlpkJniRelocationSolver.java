@@ -17,6 +17,9 @@ import org.gnu.glpk.glp_iocp;
 import org.gnu.glpk.glp_prob;
 import org.matsim.alonso_mora.algorithm.relocation.RelocationSolver;
 
+import java.util.*;
+import java.util.stream.Collectors;
+
 /**
  * Implements the relocation solver as propose in Alonso-Mora et al. (2017)
  * based on a minimum cost flow problem. The problem is solved using GLPK based

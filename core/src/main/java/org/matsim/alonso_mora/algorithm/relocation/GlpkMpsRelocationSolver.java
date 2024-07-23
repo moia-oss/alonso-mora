@@ -16,6 +16,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.matsim.alonso_mora.algorithm.assignment.GlpkMpsAssignmentSolver;
 
+import java.io.*;
+import java.util.*;
+
 /**
  * Solves the relocation problem as described by Alonso-Mora et al. using the
  * GLPK solver via file transmission. GLPK must be avaialble on the system to

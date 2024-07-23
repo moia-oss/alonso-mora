@@ -75,6 +75,7 @@ import org.matsim.contrib.dvrp.run.DvrpConfigGroup;
 import org.matsim.contrib.dvrp.run.DvrpModule;
 import org.matsim.contrib.dvrp.run.DvrpQSimComponents;
 import org.matsim.core.config.Config;
+import org.matsim.core.config.ConfigGroup;
 import org.matsim.core.config.ConfigUtils;
 import org.matsim.core.controler.Controler;
 import org.matsim.core.controler.OutputDirectoryHierarchy.OverwriteFileSetting;
@@ -83,6 +84,15 @@ import org.matsim.core.utils.io.IOUtils;
 import org.matsim.examples.ExamplesUtils;
 import org.matsim.testcases.MatsimTestUtils;
 import org.matsim.vis.otfvis.OTFVisConfigGroup;
+
+import java.io.IOException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author sebhoerl
@@ -218,6 +228,14 @@ public class AlonsoMoraExamplesIT {
 		DrtWithExtensionsConfigGroup drtConfig = (DrtWithExtensionsConfigGroup) MultiModeDrtConfigGroup.get(config)
 				.getModalElements().iterator().next();
 		drtConfig.removeParameterSet(drtConfig.getRebalancingParams().get());
+		DrtOperationsParams operationsParams = (DrtOperationsParams) drtConfig.createParameterSet(DrtOperationsParams.SET_NAME);
+		drtConfig.addParameterSet(operationsParams);
+
+		ShiftsParams shiftParams = new ShiftsParams();
+		OperationFacilitiesParams operationFacilitiesParams = new OperationFacilitiesParams();
+
+		operationsParams.addParameterSet(shiftParams);
+		operationsParams.addParameterSet(operationFacilitiesParams);
 
 		// shift parameters
 		DrtOperationsParams operationsParams = new DrtOperationsParams();

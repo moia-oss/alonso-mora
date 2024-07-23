@@ -216,6 +216,7 @@ public class RunNewYork {
 		constraintsSet.rejectRequestIfMaxWaitOrTravelTimeViolated = true;
 		constraintsSet.maxWalkDistance = 1000.0;
 
+
 		modeConfig.useModeFilteredSubnetwork = false;
 		modeConfig.idleVehiclesReturnToDepots = false;
 		modeConfig.operationalScheme = DrtConfigGroup.OperationalScheme.door2door;

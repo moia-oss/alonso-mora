@@ -1,11 +1,6 @@
 package org.matsim.alonso_mora.scheduling;
 
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
+import com.google.common.base.Verify;
 import org.matsim.alonso_mora.algorithm.AlonsoMoraRequest;
 import org.matsim.alonso_mora.algorithm.AlonsoMoraStop;
 import org.matsim.alonso_mora.algorithm.AlonsoMoraStop.StopType;
@@ -35,7 +30,11 @@ import org.matsim.contrib.dvrp.util.LinkTimePair;
 import org.matsim.core.router.util.LeastCostPathCalculator;
 import org.matsim.core.router.util.TravelTime;
 
-import com.google.common.base.Verify;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * This class translates a sequence of pickups and dropoffs as proposed by the

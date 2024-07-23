@@ -24,6 +24,10 @@ import org.matsim.alonso_mora.algorithm.AlonsoMoraVehicle;
 import org.matsim.alonso_mora.algorithm.assignment.AssignmentSolver;
 import org.matsim.alonso_mora.algorithm.assignment.AssignmentSolver.Solution.Status;
 
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 /**
  * Solves the assignment problem as described by Alonso-Mora et al. using GLPK
  * for Java. GLPK for Java must be configured correctly for this to work.
